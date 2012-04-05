@@ -3,6 +3,7 @@
       package="org.squidwrench.thor.barbaricplutonium"
       android:versionCode="1"
       android:versionName="1.0">
+    <uses-sdk android:targetSdkVersion="7" android:minSdkVersion="7"/>
     <application android:label="@string/app_name" >
         <activity android:name="BarbaricPlutonium"
                   android:label="@string/app_name">
