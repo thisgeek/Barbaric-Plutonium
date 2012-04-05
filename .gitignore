@@ -1,2 +1,7 @@
 .*swp
 local.properties
+.classpath
+.project
+.settings/
+bin/
+gen/
