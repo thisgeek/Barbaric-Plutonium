@@ -53,9 +53,15 @@ public class FireRenderer implements GLSurfaceView.Renderer {
 
   private void initShapes() {
     float squares[] = { 
-                         -0.5f, -0.25f, 0,
+/*                         -0.5f, -0.25f, 0,
                          0.5f, -0.25f, 0,
-                         0.0f,  0.559016994f, 0
+                         0.0f,  0.559016994f, 0*/
+                        -1f, -1f, 0f,
+                         0f, -1f, 0f,
+                        -1f,  0f, 0f,
+                         0f,  0f, 0f,
+                        -1f,  1f, 0f,
+                         0f,  1f, 0f,
 
     };
     /*-1f, -1f, 0f,
@@ -86,8 +92,9 @@ public class FireRenderer implements GLSurfaceView.Renderer {
     buffer = new int[GRID_SIZE_Y + 2][GRID_SIZE_X];
     r = new Random();
     initShapes();
-    gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+    gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
   }
   
   public void onSurfaceChanged(GL10 gl, int w, int h) {
@@ -96,7 +103,6 @@ public class FireRenderer implements GLSurfaceView.Renderer {
   
   public void onDrawFrame(GL10 gl) {
     int index = 0;
-    gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     for(int i = GRID_SIZE_Y - 1; i >= 0; i--) {
       for(int j = 0; j < GRID_SIZE_X; j++, index++) {
         int i1 = (i == 0) ? 0 : i - 1;
@@ -116,13 +122,17 @@ public class FireRenderer implements GLSurfaceView.Renderer {
         int r = (color & 0x00FF0000) <<  0;
         int g = (color & 0x0000FF00) <<  8;
         int b = (color & 0x000000FF) << 16;
-        gl.glColor4x(r / 255, g / 255, b / 255, 1);
-        if(index ==0) {
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, quadBuffer);
-        //gl.glDrawArrays(GL10.GL_TRIANGLES, 0, 3);
-        //gl.glDrawArrays(GL10.GL_TRIANGLES, 4, 3);
-        //gl.glDrawArrays(GL10.GL_TRIANGLES, 8, 3);
-        //gl.glDrawArrays(GL10.GL_TRIANGLES, 12, 3);
+        if(index == 0) {
+          gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+          gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        }
+        if(index >= 0 || index <= 4) {
+          gl.glColor4x(r / 255, g / 255, b / 255, 1);
+          gl.glVertexPointer(3, GL10.GL_FLOAT, 0, quadBuffer);
+          gl.glDrawArrays(GL10.GL_TRIANGLES, index, 3);
+          //gl.glDrawArrays(GL10.GL_TRIANGLES, 4, 3);
+          //gl.glDrawArrays(GL10.GL_TRIANGLES, 8, 3);
+          //gl.glDrawArrays(GL10.GL_TRIANGLES, 12, 3);
         }
       }
     }
